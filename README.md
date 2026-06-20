@@ -13,7 +13,7 @@
 8. 使用 Git 进行版本管理，配置.gitignore过滤冗余文件。
 
 ## 项目演示
-演示视频：
+演示视频：https://www.bilibili.com/video/BV1VfjH6cEz7/
 
 ## 开发环境
 引擎：Unity 6
