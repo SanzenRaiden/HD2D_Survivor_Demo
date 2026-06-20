@@ -6,17 +6,22 @@ using UnityEngine.UI;
 
 public class OptionsUI : MonoBehaviour
 {
-    public List<GameObject> options;//储存全部升级选项
+    /// <summary>
+    /// 储存全部升级选项
+    /// </summary>
+    public List<GameObject> options;
     public List<GameObject> statsUp;
     public List<GameObject> skillFireballUp;
     public List<GameObject> skillTornadoUp;
     public GameObject gainTornado;
     public GameObject gainDarkSawblade;
 
+    //选项栏
     public Transform OptionBox1;
     public Transform OptionBox2;
     public Transform OptionBox3;
 
+    //选项内容
     public GameObject option1;
     public GameObject option2;
     public GameObject option3;
@@ -33,6 +38,7 @@ public class OptionsUI : MonoBehaviour
 
     private void Update()
     {
+        //角色死亡时关闭选项栏
         if(player.playerDead)
         {
             Time.timeScale = 1;
@@ -40,6 +46,9 @@ public class OptionsUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 更新选项栏UI
+    /// </summary>
     public void RefleshOptions()
     {
         options = new List<GameObject>();
@@ -98,7 +107,10 @@ public class OptionsUI : MonoBehaviour
 
     }
 
-    //随机升级三选一选项总列表里的选项
+    /// <summary>
+    /// 随机升级三选一选项总列表里的选项
+    /// </summary>
+    /// <returns>放入选项栏的选项物体</returns>
     public GameObject RandomOption()
     {
         int optionAmount = options.Count;
@@ -106,7 +118,11 @@ public class OptionsUI : MonoBehaviour
         return options[amount];
     }
 
-    //刷新升级三选一UI
+    /// <summary>
+    /// 刷新升级三选一UI
+    /// </summary>
+    /// <param name="optionBox">刷新的选项栏容器</param>
+    /// <param name="option">刷新的具体选项</param>
     public void RefleshSingleOption(Transform optionBox, GameObject option)
     {
         BasalLevelupOptions levelupOption = option.GetComponent<BasalLevelupOptions>();

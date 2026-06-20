@@ -8,6 +8,7 @@ public class TitleFrames : MonoBehaviour
     public GameObject battleFrames;
     public GameObject talent;
 
+    //对天赋加点界面初始化相关变量
     public Player player;
     public TextMeshProUGUI talentPointText;
     public Transform healthTalentBox;
@@ -53,12 +54,18 @@ public class TitleFrames : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// 点击addplayer按钮
+    /// </summary>
     public void Click_AddPlayers()
     {
         Music.PlayUIAudio();
         Application.OpenURL("https://cppreference.cn/w/");
     }
 
+    /// <summary>
+    /// 点击天赋按钮
+    /// </summary>
     public void Click_Talent()
     {
         Music.PlayUIAudio();
@@ -67,12 +74,18 @@ public class TitleFrames : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// 退出天赋按钮
+    /// </summary>
     public void Click_Talent_Exit()
     {
         Music.PlayUIAudio();
         talent.SetActive(false);
     }
 
+    /// <summary>
+    /// 点击退出游戏
+    /// </summary>
     public void Click_ExitGame()
     {
         Music.PlayUIAudio();
@@ -89,6 +102,11 @@ public class TitleFrames : MonoBehaviour
         Music.SEAudioVolumeSlider(seVolume);
     }
 
+    /// <summary>
+    /// 天赋加点，属性更改，UI更改
+    /// </summary>
+    /// <param name="talentAddition">加点计数</param>
+    /// <param name="talentName">加点的属性名</param>
     public void AddTalent(int talentAddition, string talentName)
     {
         int consumePoint = (talentAddition * 10 + 10);
@@ -112,6 +130,11 @@ public class TitleFrames : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 天赋减点，属性更改，UI更改
+    /// </summary>
+    /// <param name="talentAddition">减点计数</param>
+    /// <param name="talentName">减点的属性名</param>
     public void ReduceTalent(int talentAddition, string talentName)
     {
         if (talentAddition > 0)
@@ -134,6 +157,9 @@ public class TitleFrames : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 刷新整个天赋栏UI
+    /// </summary>
     public void RefleshTalent()
     {
         RefleshSingleTalent(healthTalentBox, player.healthAddition, 20, "Health", healthLevel);
@@ -142,6 +168,14 @@ public class TitleFrames : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// 刷新单个天赋UI
+    /// </summary>
+    /// <param name="box">天赋位于的天赋栏</param>
+    /// <param name="talentAddTimes">天赋加点次数</param>
+    /// <param name="addition">天赋加成数值</param>
+    /// <param name="talentName">天赋名</param>
+    /// <param name="level">天赋等级</param>
     public void RefleshSingleTalent(Transform box, int talentAddTimes, int addition, string talentName, int level)
     {
         box.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = talentName + "+" + addition + "\n" + "<color=#FF6C6C>(Added " + talentAddTimes * addition + ")" + "|Level " + level + "</color>";
@@ -172,6 +206,7 @@ public class TitleFrames : MonoBehaviour
         ReduceTalent(player.attackAddition, "Attack");
     }
 
+    //天赋重置按钮
     public void Click_ResetTalentPoint()
     {
         Music.PlayUIAudio();

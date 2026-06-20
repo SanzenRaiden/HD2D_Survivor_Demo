@@ -4,33 +4,45 @@ using UnityEngine.UI;
 
 public class BattleUI : MonoBehaviour
 {
+    //技能栏变量
     public GameObject skillProject;
     public Transform skillBox;
     public Transform playerSkillList;
+
+    //升级后的选项
     public GameObject levelupOptions;
+
     public Player player;
     public Transform menu;
+
+    //角色血量变量
     public Image health;
     public TextMeshProUGUI healthNumber;
+    //角色经验值变量
     public Transform experienceBra;
     public TextMeshProUGUI levelText;
+    //游戏倒计时
     public TextMeshProUGUI timer;
     public int second;
     public int minute;
     public bool isTime = false;
     public float countTime = 0;
+
     public GameObject deadUI;
     public GameObject titleFrames;
     public GameObject battleUI;
     public GameObject VictoryUI;
     public GameObject EditUI;
     public GameObject InstructionsUI;
+   
+    //音量处理变量
     public MusicManagement Music;
     public Slider bgmVolume;
     public Slider seVolume;
 
     void OnEnable()
     {
+        //更新战斗UI界面
         RefleshSkillUI();
         CountdownTimer();
         Music.PlayBGM(Music.battleBGM);
@@ -97,7 +109,9 @@ public class BattleUI : MonoBehaviour
         isTime = true;
     }
 
-    //更新UI的图片，并将技能UI放入UI栏
+    /// <summary>
+    /// 更新UI的图片，并将技能UI放入UI栏
+    /// </summary>
     public void RefleshSkillUI()
     {
         if(skillBox.childCount > 0)
@@ -117,6 +131,9 @@ public class BattleUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// 游戏胜利处理
+    /// </summary>
     public void GameVictory()
     {
         VictoryUI.SetActive(true);
@@ -127,16 +144,19 @@ public class BattleUI : MonoBehaviour
         player.TotalTalentPoint += talentPoint;
     }
 
+    //调节BGM音量
     public void AdjustBGMVolume()
     {
         Music.BGMAudioVolumeSlider(bgmVolume);
     }
 
+    //调节SE音量
     public void AdjustSEVolume()
     {
         Music.SEAudioVolumeSlider(seVolume);
     }
 
+    //打开菜单按钮
     public void ClickOpenMenu()
     {
         Music.PlayUIAudio();
@@ -144,6 +164,7 @@ public class BattleUI : MonoBehaviour
         Time.timeScale = 0;
     }
 
+    //继续游戏按钮
     public void ClickContinue()
     {
         Music.PlayUIAudio();
@@ -151,6 +172,7 @@ public class BattleUI : MonoBehaviour
         Time.timeScale = 1;
     }
 
+    //游戏设置按钮
     public void ClickEdit()
     {
         Music.PlayUIAudio();
@@ -165,42 +187,45 @@ public class BattleUI : MonoBehaviour
         Debug.Log("after: " + bgmVolume.value + " , " + seVolume.value);
     }
 
+    //退出设置按钮
     public void ClickExitEdit()
     {
         Music.PlayUIAudio();
         EditUI.SetActive(false);
     }
 
+    //打开说明按钮
     public void ClickInstructions()
     {
         Music.PlayUIAudio();
         InstructionsUI.SetActive(true);
     }
 
+    //关闭说明按钮
     public void ClickExitInstruction()
     {
         Music.PlayUIAudio();
         InstructionsUI.SetActive(false);
     }
 
-    public void ClickExit()
-    {
-
-    }
-
-
+    /// <summary>
+    /// 升级，暂停游戏，将三选一选项打开
+    /// </summary>
     public void LevelupOptions()
     {
         Time.timeScale = 0;
         levelupOptions.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// 播放死亡UI
+    /// </summary>
     public void DeadUI()
     {
         deadUI.SetActive(true);
-
     }
 
+    //执行退回标题界面
     public void BackToTitleFrames()
     {
         Music.PlayUIAudio();
@@ -210,6 +235,5 @@ public class BattleUI : MonoBehaviour
         menu.gameObject.SetActive(false);
         player.StartPlayerSkill();
         battleUI.SetActive(false);
-
     }
 }

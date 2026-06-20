@@ -8,10 +8,16 @@ public class BasalSkill : MonoBehaviour
 
     //技能属性
     public string skillName;
-    public float cooldownTime;//技能，发射子弹组的冷却间隔
+    /// <summary>
+    /// 技能，发射子弹组的冷却间隔
+    /// </summary>
+    public float cooldownTime;
     public float cooldownKey;
     public int bulletNumber;
-    public float interval;//一个技能，一组子弹内每个子弹的发射间隔
+    /// <summary>
+    /// 一个技能，一组子弹内每个子弹的发射间隔
+    /// </summary>
+    public float interval;
 
     //技能及子弹属性
     public int damage;
@@ -20,7 +26,10 @@ public class BasalSkill : MonoBehaviour
     public int penetration;
     public float bulletSpeed;
     public float bulletSize;
-    public GameObject bulletObject;//创建子弹对象
+    /// <summary>
+    /// 创建子弹对象
+    /// </summary>
+    public GameObject bulletObject;
     
     public GameObject player;//获取玩家对象坐标以生成子弹
     public float angle;//子弹生成角度
@@ -28,6 +37,7 @@ public class BasalSkill : MonoBehaviour
 
     void FixedUpdate()
     {
+        //冷却倒计时
         cooldownKey += Time.fixedDeltaTime;
         if(cooldownKey > cooldownTime)
         {
@@ -36,6 +46,9 @@ public class BasalSkill : MonoBehaviour
         
     }
 
+    /// <summary>
+    /// 冷却计时，冷却好时使用技能
+    /// </summary>
     public virtual IEnumerator UseSkill()
     {
         cooldownKey = 0;

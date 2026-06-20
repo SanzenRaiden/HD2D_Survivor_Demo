@@ -5,16 +5,27 @@ using System.Collections;
 public class BasalEnemy : BasalStats
 {
     public GameObject damageNumber;
-    public EnemyState enemyState;
     private GameObject chasingTarget;
     private Transform playerObject;
     private Animator anim;
     public Material normalMaterial;
     public Material hitedMaterial;
     public GameObject dropObject;
-    private float begintransform = 5f;
     public AudioClip enemyHitedAudio;
 
+    public EnemyState enemyState;
+
+    /// <summary>
+    /// 敌人初始缩放
+    /// </summary>
+    private float begintransform = 5f;
+
+    /// <summary>
+    /// 敌人状态
+    /// </summary>
+    /// <param name="Idle">闲置状态</param>
+    /// <param name="Moving">移动状态</param>
+    /// <param name="Die">死亡状态</param>
     public enum EnemyState
     {
         Idle,
@@ -28,7 +39,10 @@ public class BasalEnemy : BasalStats
         anim = GetComponent<Animator>();
     }
 
-    //碰撞检测，对玩家造成伤害
+    /// <summary>
+    /// 碰撞检测，对玩家造成伤害
+    /// </summary>
+    /// <param name="other">碰撞对象</param>
     private void OnCollisionEnter(Collision other)
     {
         if (other.gameObject.CompareTag("Player"))
@@ -48,8 +62,11 @@ public class BasalEnemy : BasalStats
             }
         }
     }
-    
-    //受击特效
+
+
+    /// <summary>
+    /// 受击效果，特效、音效
+    /// </summary>
     public void StartHitedback()
     {
         if (enemyHitedAudio != null)
@@ -61,6 +78,8 @@ public class BasalEnemy : BasalStats
         StartCoroutine(Hitfeedback());
     }
 
+
+    //受击时更改材质，一段时间再变回原材质
     public IEnumerator Hitfeedback()
     {
         GetComponent<SpriteRenderer>().material = hitedMaterial;
@@ -68,7 +87,9 @@ public class BasalEnemy : BasalStats
         GetComponent<SpriteRenderer>().material = normalMaterial;
     }
 
-    //死亡事件
+    /// <summary>
+    /// 敌人死亡
+    /// </summary>
     public void Dying()
     {
         if (enemyState != EnemyState.Die)
@@ -79,14 +100,16 @@ public class BasalEnemy : BasalStats
             StartCoroutine(DestroySelf());
         }
     }
-
+    //播放玩死亡动画，删除自己
     public IEnumerator DestroySelf()
     {
         yield return new WaitForSeconds(3f);
         Destroy(gameObject);
     }
 
-    //追击玩家
+    /// <summary>
+    /// 找到并追击玩家
+    /// </summary>
     public void GetTargetRole()
     {
         float chaseDistance = 999;
@@ -98,7 +121,7 @@ public class BasalEnemy : BasalStats
             {
                 float distance = Vector3.Distance(item.position, transform.position);//怪物自身和玩家的距离
 
-                if(distance < chaseDistance)            //比较距离，追击最近的玩家
+                if(distance < chaseDistance)//比较距离，追击最近的玩家
                 {
                     chaseDistance = distance;
                     currentChaeing = item;

@@ -11,11 +11,16 @@ public class BasalBullet : MonoBehaviour
     public float bulletSize;
 
     public GameObject damageNumber;
+    /// <summary>
+    /// 获取技能属性数值
+    /// </summary>
+    public BasalSkill fatherSkill;
+    public BasalStats player;
 
-    public BasalSkill fatherSkill;//获取技能属性数值
-    public BasalStats player;//获取玩家
-
-    public bool cango = false;//子弹是否可以发射
+    /// <summary>
+    /// 子弹是否可以发射
+    /// </summary>
+    public bool cango = false;
 
     public Rigidbody rb;
     //子弹追踪敌人逻辑变量
@@ -37,7 +42,10 @@ public class BasalBullet : MonoBehaviour
         }
     }
 
-    public virtual void GetFather()//获取父技能的属性
+    /// <summary>
+    /// 获取父技能的属性
+    /// </summary>
+    public virtual void GetFather()
     {
         damage = fatherSkill.damage;
         level = fatherSkill.level;
@@ -50,7 +58,10 @@ public class BasalBullet : MonoBehaviour
         enemyObject = GameObject.Find("EnemyObject").transform;
     }
 
-    //子弹造成伤害
+    /// <summary>
+    /// 子弹造成伤害
+    /// </summary>
+    /// <param name="other">碰撞物体检测</param>
     private void OnTriggerEnter(Collider other)
     {
         if(other.isTrigger)
@@ -97,13 +108,17 @@ public class BasalBullet : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// 生存时间结束删除子弹
+    /// </summary>
     public void DestroySelf()
     {
         Destroy(gameObject);
     }
 
-
-    //子弹获取目标追踪逻辑
+    /// <summary>
+    /// 子弹获取目标追踪逻辑
+    /// </summary>
     public void GetTargetRole()
     {
         float chaseDistance = 999;
@@ -115,7 +130,7 @@ public class BasalBullet : MonoBehaviour
             {
                 float distance = Vector3.Distance(item.position, transform.position);//怪物自身和玩家的距离
 
-                if (distance < chaseDistance)            //比较距离，追击最近的玩家
+                if (distance < chaseDistance)//比较距离，追击最近的玩家
                 {
                     chaseDistance = distance;
                     currentChaeing = item;
@@ -139,17 +154,15 @@ public class BasalBullet : MonoBehaviour
        
     }
 
-
-    //子弹移动
     private void FixedUpdate()
     {
+        //子弹移动
         if (cango)
         {
             Vector3 move = new Vector3(distance.x, 0, distance.z).normalized * bulletSpeed;
             rb.linearVelocity = move;
             float angle = Mathf.Atan2(distance.z, distance.x) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, 0, angle);
-
 
             lifeTime -= Time.fixedDeltaTime;
             if(lifeTime < 0)

@@ -42,12 +42,17 @@ public class BasalLevelupOptions : MonoBehaviour
         bulletSize,
     }
 
-
+    /// <summary>
+    /// 选择对应类型的选项执行对应类型的加成操作
+    /// </summary>
     public virtual void SelectOption()
     {
 
     }
 
+    /// <summary>
+    /// 关闭选项栏
+    /// </summary>
     public void CloseOption()
     {
         Time.timeScale = 1;

@@ -5,12 +5,17 @@ public class Player : BasalStats
 {
     public Material normalMaterial;
     public Material hitedMaterial;
+
     public AudioClip hitedAudio;
     public AudioSource seVolume;
+
+    /// <summary>
+    /// 判断角色是否死亡
+    /// </summary>
+    public bool playerDead = false;
+
     public float gainRadius;
 
-    public bool playerDead = false;
-   
     private Rigidbody rb;
     public Animator anim;
     public BasalStats startStats;
@@ -22,16 +27,19 @@ public class Player : BasalStats
 
     public int talentPoint = 0;
     public int TotalTalentPoint = 0;
+    /// <summary>
+    /// 生命值加成次数
+    /// </summary>
     public int healthAddition = 0;
+    /// <summary>
+    /// 攻击力加成次数
+    /// </summary>
     public int attackAddition = 0;
 
     private void Start()
     {
         rb = GetComponent<Rigidbody>();
-       
     }
-
-   
 
     //旧输入系统的角色移动逻辑
     void Update()
@@ -39,6 +47,7 @@ public class Player : BasalStats
         
         if (playerDead ==false)
         {
+            //移动逻辑
             float horizontal = Input.GetAxis("Horizontal");
             float vertical = Input.GetAxis("Vertical");
 
@@ -53,6 +62,7 @@ public class Player : BasalStats
                 anim.SetBool("moving", false);
             }
 
+            //角色朝向
             if (horizontal > 0)
             {
                 transform.localScale = new Vector3(1, 1, 1);
@@ -76,27 +86,18 @@ public class Player : BasalStats
                 }
             }
 
-            if (Input.GetKeyDown(KeyCode.Return))
-            {
-                currentExperience += 20;
-            }
-
+            //升级
             if (currentExperience >= maxExperience)
             {
                 currentExperience -= maxExperience;
                 LevelUp();
             }
-            if (Input.GetKeyUp(KeyCode.Delete))
-            {
-                currentHealth -= 20;
-                if(currentHealth <= 0)
-                {
-                    Dying();
-                }
-            }
         }
     }
 
+    /// <summary>
+    /// 玩家属性初始化
+    /// </summary>
     public void StartPlayerStsts()
     {
         maxHealth = startStats.maxHealth;
@@ -111,6 +112,9 @@ public class Player : BasalStats
 
     }
 
+    /// <summary>
+    /// 角色技能表初始化
+    /// </summary>
     public void StartPlayerSkill()
     {
         foreach(Transform skill in skillList)
@@ -123,6 +127,9 @@ public class Player : BasalStats
         }
     }
 
+    /// <summary>
+    /// 天赋加成
+    /// </summary>
     public void TalentAddition()
     {
         maxHealth += healthAddition * 20;
@@ -130,6 +137,9 @@ public class Player : BasalStats
         attack += attackAddition * 5;
     }
 
+    /// <summary>
+    /// 等级提升
+    /// </summary>
     public void LevelUp()
     {
         level += 1;
@@ -139,7 +149,9 @@ public class Player : BasalStats
         battleUI.LevelupOptions();
     }
 
-    //死亡事件
+    /// <summary>
+    /// 角色死亡，播放死亡动画
+    /// </summary>
     public void Dying()
     {
         playerDead = true;
@@ -147,7 +159,9 @@ public class Player : BasalStats
         battleUI.DeadUI();
     }
 
-    //受击特效
+    /// <summary>
+    /// 受击效果，特效、音效
+    /// </summary>
     public void StartHitedback()
     {
         if (hitedAudio != null)
@@ -159,6 +173,7 @@ public class Player : BasalStats
         StartCoroutine(Hitfeedback());
     }
 
+    //受击时更改材质，一段时间再变回原材质
     public IEnumerator Hitfeedback()
     {
         transform.GetChild(0).GetComponent<SpriteRenderer>().material = hitedMaterial;
